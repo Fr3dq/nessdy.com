@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sign_up.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/facts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/shop.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/password.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/token.css') }}">
+
+    <!-- Font font-family: "Playfair Display", serif;-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    <!--font-family: "Montserrat", sans-serif;-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <title>{% block title %}NESSDY.com{% endblock %}</title>
+</head>
+<body>
+  <!-- JavaScript file -->
+  <script type="text/javascript" src="{{ url_for('static', filename='toggle.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='flash_close.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='removeProject.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='toggle_desc.js') }}"></script>
+
+  <!-- This block displays flash messages. It uses for loop to go through messages and display them -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {%for category, message in messages %}
+    {% if category == 'error' %}
+    <div class="alert" role="alert">
+      {{ message }}
+    </div>
+    {% else %}
+    <div class="alert" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <div class="container">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <a href="/">  <img src="{{ url_for('static', filename='images/nessdy_logo2.png') }}">  </a>
+
+        <div class="nav-menu">
+            {% if user.is_authenticated %}
+            
+            <a href="/" class="nav-link nav-item li1"> Home </a>
+            <a href="/cloud" class="nav-link nav-item li2">Cloud</a>
+            <a href="/create" class="nav-link nav-item li3">Create</a>
+            <a href="/logout" class="nav-link nav-item li4">Logout</a>
+            <a href="/settings" class="nav-link nav-item li2">More</a>
+
+            {% else %}
+            
+            <a href="/" class="nav-link li1 nav-item"> Home </a>
+            <a href="/cloud" class="nav-link li2 nav-item">Cloud</a>
+            <a href="/login" class="nav-link li4 nav-item">Login</a>
+            <a href="/sign-up" class="nav-link li2 nav-item">Sign up</a>
+
+            {% endif %}
+          </div>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <p class="space_header" >{{ user.first_name }}</p>
+      </nav>
+      {% block content %}
+      {% endblock %}
+      <br>
+      <div class="footer">
+        <ul>
+          <li>
+            <img class="logofooter" src="{{ url_for('static', filename='images/nessdy_logo2.png') }}">
+          </li>
+          <li>
+            <p>Where creativity meets opportunity.</p>
+            <p>Discover emerging talent, innovative projects,</p>
+            <p>and thoughtfully developed ideas.</p>
+            <p>Every collaboration is driven by passion,</p>
+            <p>designed to inspire, and aimed at growth.</p>
+          </li>
+          <li>
+            <h2>Follow Us</h2> 
+            <br>
+            <a href="/"><p class="socialm" >Instagram</p></a>
+            <a href="/" ><p class="socialm" >Facebook</p></a>
+          </li>
+          <li>
+            <h2>Explore</h2>
+            <br>
+            <p>Innovative projects</p>
+            <p>Breathtaking ideas</p>
+            <p>Creative community</p>
+          </li>
+        </ul>
+        <br>
+        <div class="rights">
+          <p> © All rights reserverd nessdy.com</p>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

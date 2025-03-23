@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Text</title>
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h3 {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(90deg, black, purple, black, purple, black, purple);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 7s infinite linear;
+        }
+    </style>
+</head>
+<body>
+    <h3>Animate dsgyjsgtydgfytsd ydgsdugsgdytjhgd dsgydgsugy </h3>
+</body>
+</html>

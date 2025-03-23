@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="projects_container">
+    <h1 class="title-text">WELCOME TO NESSDY CLOUD</h1>
+    <br>
+    <p class="title-text">Here, you will find a list of all the projects that have been created</p>
+    <br>
+    <ul class="list-group" id="notes">
+        {% for note in notes %}
+        <h3 class="note-title">{{ note.title }} ~ {{ note.username }}</h3>
+        <li class="list-group-item">
+            <div class="list-group-item-navigation">
+                <div class="collapsible" onclick="toggleContent(this)">Show all</div>
+                {% if user.email == "fryderyk.otolski@gmail.com" %}
+                    <button type="button" class="close" onclick="deleteNote( {{ note.id }} )">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                {% endif %}
+            </div>
+            <div class="content">
+                <h4 class="space">{{ note.title }}</h4>
+                <h4 class="space">Description</h4>
+                <p class="description">{{ note.data.replace('\n', '<br>') | safe }}</p>
+                <h4 class="space">{% if note.spec and note.spec|trim != '' %} Specifications {% endif %}</h4>
+                <p class="description">{{ note.spec }}</p>
+                <h4 class="space">{% if note.images and note.images|trim != '' %} Uploaded images {% endif %}</h4>
+                <div class="images">
+                    {% for image in note.images %}
+                        <img src="{{ url_for('static', filename='uploads/' + image.path) }}">
+                    {% endfor %}
+                </div>
+                <h4 class="space">{% if note.links and note.links|trim != '' %} Social media {% endif %}</h4>
+                {% for link in note.links %}
+                    <div class = "media-link"><a href="{{ link.link }}" target="_blank">{{ link.link }}</a></div>
+                    <br>
+                {% endfor %}  
+            </div>
+        </li>
+        <p class="date" >{{ note.date }}</p>
+        <br>
+        {% endfor %}
+    </ul>
+    <br>
+</div>
+{% endblock %}

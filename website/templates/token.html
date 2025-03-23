@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-holder">
+    <form method="POST" class="login-form">
+        <h3>Reset password</h3> 
+        <div class="form-group">
+            <label for="password1">Code</label>
+            <input type="text" class="form-control" id="code" name="code" placeholder="Enter code form email">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="password1">New password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="password1">Confirm password</label>
+            <input type="password" class="form-control" id="password1" name="password1" placeholder="confirm password">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Reset</button>
+    </form>
+</div>
+{% endblock %}

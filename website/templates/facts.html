@@ -1,0 +1,71 @@
+{% extends "base.html" %} 
+
+{% block title %}My Projects{% endblock %}
+
+{% block content %}
+<div class="projects_container">
+    <h1>CREATE AREA</h1>
+    <br>
+    <p>Read the instructions carefully</p>
+    <br>
+    <form method="POST" class="enter_area" enctype="multipart/form-data">
+        <h4>Add the title (required)</h4>
+        <textarea name="title" id="title" class="form_title" placeholder="Enter a short title (max 50 characters). Do not use special characters"></textarea>
+        <br>
+        <h4>Add the description (required)</h4>
+        <textarea name="note" id="note" class="form" placeholder="Enter details about your project (max 30,000 characters)"></textarea></textarea>
+        <br>
+        <h4>Add the specifications (optional)</h4>
+        <textarea name="spec" id="spec" class="form_additional" placeholder="List the items or tools you used (max 500 characters)"></textarea>
+        <br>
+        <h4>Social media links (optional)</h4>
+        <textarea name="social" id="social" class="form_additional" placeholder="Add social media links (accepted platforms: Facebook, Instagram, X, GitHub, TikTok, Stack Overflow, YouTube, and Pinterest)"></textarea>
+        <br>
+        <h4>Add images (optional) max 8 </h4>
+        <input type="file" name="images" id="images" class="form_additional" accept="image/*" multiple>
+        <br>
+        <div>
+            <button type="submit" class="btn">CREATE</button>
+        </div>
+    </form>
+    <br>
+    <h1>MY PROJECTS</h1>
+    <br>
+    <ul class="list-group" id="notes">
+        {% for note in user.notes %}
+        <h3 class="note-title">{{ note.title }} ~ {{ user.first_name }}</h3>
+        <li class="list-group-item">
+            <div class="list-group-item-navigation">
+                <div class="collapsible" onclick="toggleContent(this)">Show all</div>
+                <button type="button" class="close" onclick="deleteNote( {{ note.id }} )">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> 
+            <div class="content">
+                <h4 class="space">{{ note.title }}</h4>
+                <h4 class="space">Description</h4>
+                <p class="description">{{ note.data.replace('\n', '<br>') | safe }}</p>
+                <h4 class="space">{% if note.spec and note.spec|trim != '' %} Specifications {% endif %}</h4>
+                <p class="description">{{ note.spec }}</p>
+                <h4 class="space">{% if note.images and note.images|trim != '' %} Uploaded images {% endif %}</h4>
+                <div class="images">
+                    {% for image in note.images %}
+                        <img src="{{ url_for('static', filename='uploads/' + image.path) }}">
+                    {% endfor %}
+                </div>
+                <h4 class="space">{% if note.links and note.links|trim != '' %} Social media {% endif %}</h4>
+                {% for link in note.links %}
+                    <div class = "media-link"><a href="{{ link.link }}" target="_blank">{{ link.link }}</a></div>
+                    <br>
+                {% endfor %}  
+            </div>
+        </li>
+        <p class="date" >{{ note.date }}</p>
+        <br>
+        {% endfor %}
+    </ul>
+    <br> 
+</div>
+
+
+{% endblock %}

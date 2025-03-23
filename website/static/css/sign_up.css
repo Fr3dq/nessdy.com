@@ -1,0 +1,55 @@
+.sign-up-holder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+}
+
+.sign-up-form {
+    margin: 0px 6px;
+    padding: 20px;
+    border: 1px solid #803bff;
+    border-radius: 10px;
+    max-width: 500px;
+    max-height: 740px;
+}
+
+.sign-up-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #803bff;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-family: "Lilita One", sans-serif;
+    font-size: 18px;
+    background-color: #803bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #4905c7;
+}
+
+@media(max-width: 1160px){
+    .sign-up-holder{
+        height: 600px;
+    }
+}

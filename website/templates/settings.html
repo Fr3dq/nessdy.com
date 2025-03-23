@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/settings.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='policy_opener.js') }}"></script>
+    <title>settings</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title-block"><h1>SETTINGS & INFO</h1></div>
+        <div class="info-container">
+            <form action="{{ url_for('views.settings') }}" method="POST">
+                <button type="submit" class="btn_exit">EXIT</button>
+            </form>
+            <div class="element"><p>Username: {{ user.first_name }}</p></div>
+            <div class="element"><p>Name & Surname: {{ user.name_surname }}</p></div>
+            <div class="element"><p>Mail: {{ user.email }}</p></div>
+            <div class="element">
+                <p>
+                Time with us: 
+                {{ (now.year - user.date.year) }} years 
+                {{ (now.month - user.date.month) % 12 }} months 
+                {{ (now - user.date).days % 30 }} days 
+                {{ ((now - user.date).seconds // 3600) }} hours
+                </p>
+            </div>
+            <div class="element"><p>Created projects: {{ user.notes|length }}</p></div>
+        </div>
+        <div class="title-block"><h1>CONTACT US</h1></div>
+        <div class="info-container">
+            <div class="element"><p>For inquiries, complaints, or copyright concerns, please contact us at nessdy.com@gmail.com. 
+                We are committed to ensuring a positive and productive environment for all users and will address concerns promptly</p></div>
+            <div class="element"><p>Mail: <a class="mail_link" href="mailto:nessdy.com@gmail.com">nessdy.com@gmail.com</a></p></div>
+        </div>
+        <div class="title-block"><h1>Q&A</h1></div>
+        <div class="info-container">
+            <div class="element"><h3>0. How does nessdy support artists and creators?</h3></div>
+            <div class="element"><p>Nessdy supports artists and creators by giving them the opportunity to be noticed. 
+                Every project shared on the platform can include social media links, allowing creators to connect with a wider audience. 
+                If someone likes your work, they can easily reach out, opening doors to collaborations, career opportunities, and recognition.</p></div>
+            
+            <div class="element"><h3>1. What benefits do creators get from joining nessdy.com?</h3></div>
+            <div class="element">
+                <p>Joining nessdy gives creators a unique platform to showcase their ideas and gain recognition in a supportive community. 
+                The platform provides exposure, potential career opportunities, and a space to freely express creativity without limitations. 
+                By becoming part of nessdy, creators can connect, grow, and inspire others in a thriving artistic environment.
+                </p>
+            </div>
+
+            <div class="element"><h3>2. Do I need to submit my project for approval before sharing it?</h3></div>
+            <div class="element"><p>No, you do not need to submit your project for approval before sharing it. 
+                At nessdy, we trust our creators and believe in giving them the freedom to express their ideas without unnecessary barriers. 
+                Our platform is designed to encourage creativity while ensuring a positive environment. 
+                Additionally, our algorithms help prevent harmful behavior, keeping the community safe and inspiring for everyone.</p></div>
+
+            <div class="element"><h3>3. What kind of projects can be shared on nessdy?</h3></div>
+            <div class="element"><p>Creators on nessdy can share any kind of project! 
+                Whether it's art, inventions, designs, music, writing, technology, or any creative concept, there are no limits. 
+                The platform is open to all forms of creativity, allowing individuals to showcase their unique ideas and inspire others. 
+                If you have something to share, nessdy is the perfect place to do it!</p></div>
+
+            <div class="element"><h3>4. Is there a membership fee to be part of nessdy?</h3></div>
+            <div class="element"><p>No, there is no membership fee to be part of nessdy. It is completely free for everyone!</p></div>
+        </div>
+
+        <div class="title-block"><h1>OUR POLICY</h1></div>
+        <div class="info-container"><pre id="textContent" class="policy">Loading...</pre></div>
+</body>
+</html>
