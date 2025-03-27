@@ -24,5 +24,4 @@ jobs:
             cd /home/tony_web/code
             git pull origin main
             source /home/tony_web/env/teton/bin/activate
-            pip install -r requirements.txt
             sudo systemctl restart nessdy
