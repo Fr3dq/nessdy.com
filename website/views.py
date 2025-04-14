@@ -9,8 +9,7 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 
 # Uploading images
-basedir = os.path.abspath(os.path.dirname(__file__))
-UPLOAD_FOLDER_2 = os.path.join(basedir, 'static', 'uploads')
+UPLOAD_FOLDER_2 =  r'static\uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
