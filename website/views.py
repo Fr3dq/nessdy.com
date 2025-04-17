@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 
 # Uploading images
-UPLOAD_FOLDER_2 = r'/home/tony_web/code/website/static/uploads'
+UPLOAD_FOLDER_2 = r'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
