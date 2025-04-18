@@ -28,6 +28,14 @@ def shop():
 
 @views.route('/create', methods=['GET', 'POST'])
 def facts():
+    # Ustawiamy pełną ścieżkę do folderu uploads
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    UPLOAD_FOLDER_2 = os.path.join(BASE_DIR, 'static', 'uploads')
+
+    # Tworzymy folder, jeśli nie istnieje
+    if not os.path.exists(UPLOAD_FOLDER_2):
+        os.makedirs(UPLOAD_FOLDER_2)
+
     if request.method == 'POST':
         title = request.form.get('title')
         note = request.form.get('note')
@@ -35,6 +43,8 @@ def facts():
         link = request.form.get('social')
         link = DivideLinks(link)
         files = request.files.getlist('images')
+
+        print(f"FILES RECEIVED: {[file.filename for file in files]}")
 
         if len(note) >= 30000:
             flash('Description is too long', category ='error')
@@ -51,7 +61,7 @@ def facts():
         elif DetectHarmfulLinks(link) == 1:
             flash('Your links are unacceptable', category = 'error')    
         elif len(files) > 8:
-                flash("You can upload up to 8 images", category='error')
+            flash("You can upload up to 8 images", category='error')
         else:
             new_note = Note(title=title, data=note, spec=spec, user_id=current_user.id, username=current_user.first_name)
             db.session.add(new_note)
@@ -61,24 +71,27 @@ def facts():
                 new_link = Links(link=x, note_id=new_note.id)
                 db.session.add(new_link)
             
-            #Uploading images
+            # Uploading images
             for file in files:
-                if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename) #Find out what is secure_filename
-                    #filepath = "static/uploads/" + filename
-                    filepath = os.path.join(UPLOAD_FOLDER_2, filename) 
-                    if os.path.exists(UPLOAD_FOLDER_2):
+                if file and allowed_file(file.filename) and file.mimetype.startswith('image/'):
+                    import uuid
+                    filename = secure_filename(f"{uuid.uuid4().hex}_{file.filename}")
+                    filepath = os.path.join(UPLOAD_FOLDER_2, filename)
+
+                    try:
                         file.save(filepath)
-                    else:
-                        print('doesnt exist ' + filepath)
-                        
-                    new_image = Image(path=filename, note_id=new_note.id) #I only add filename because path is always the same
-                    db.session.add(new_image)
+                        print(f"SAVED FILE TO: {filepath}")
+                        new_image = Image(path=filename, note_id=new_note.id)
+                        db.session.add(new_image)
+                    except Exception as e:
+                        print(f"Error saving file {filename}: {e}")
+                        flash('Something went wrong while saving an image.', category='error')
 
             db.session.commit()
-            flash('Project created!', category = 'error')
+            flash('Project created!', category = 'success')
 
     return render_template("facts.html", user = current_user)
+
 
 @views.route('/delete-note', methods=['POST'])
 def delete_note():
