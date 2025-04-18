@@ -7,6 +7,7 @@ from .security import CheckForSpecialSigns, DivideLinks, DetectHarmfulLinks
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import uuid
 
 # Uploading images
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -76,7 +77,6 @@ def facts():
 
             for file in files:
                 if file and allowed_file(file.filename) and file.mimetype.startswith('image/'):
-                    import uuid
                     filename = secure_filename(f"{uuid.uuid4().hex}_{file.filename}")
                     filepath = os.path.join(UPLOAD_FOLDER_2, filename)
 

@@ -23,7 +23,7 @@ def StrongPasswordVeryfication(password): #It chceks if password is correct
 
 def DetectHarmfulLinks(link): #It checks if entered links are valid and safe
     counter = 0
-    tab = ['www.facebook.com', 'www.instagram.com', 'www.x.com', 'www.github.com', 'www.tiktok.com', 'www.stackoverflow.com', 'www.pinterest.com', 'www.youtube.com',
+    tab = ['www.facebook.com', 'www.instagram.com', 'www.x.com', 'www.github.com', 'www.tiktok.com', 'www.stackoverflow.com', 'www.pinterest.com', 'www.youtube.com', 'spotify.com'
            '//facebook.com', '//instagram.com', '//x.com', '//github.com', '//tiktok.com', '//stackoverflow.com', '//pinterest.com', '//youtube.com']
     for x in tab:
         for y in link:
