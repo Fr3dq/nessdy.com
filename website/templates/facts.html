@@ -11,15 +11,18 @@
     <form method="POST" class="enter_area" enctype="multipart/form-data">
         <h4>Add the title (required)</h4>
         <textarea name="title" id="title" class="form_title" placeholder="Enter a short title (max 50 characters). Do not use special characters"></textarea>
+        <p class="red_txt">Required! Do not use special characters</p>
         <br>
         <h4>Add the description (required)</h4>
         <textarea name="note" id="note" class="form" placeholder="Enter details about your project (max 30,000 characters)"></textarea></textarea>
+        <p class="red_txt">Required!</p>
         <br>
         <h4>Add the specifications (optional)</h4>
         <textarea name="spec" id="spec" class="form_additional" placeholder="List the items or tools you used (max 500 characters)"></textarea>
         <br>
         <h4>Social media links (optional)</h4>
         <textarea name="social" id="social" class="form_additional" placeholder="Add social media links (accepted platforms: Facebook, Instagram, X, GitHub, TikTok, Stack Overflow, YouTube, Spotify, and Pinterest)"></textarea>
+        <p class="red_txt">Add only accepted links!</p>
         <br>
         <h4>Add images (optional) max 8 - 25MB</h4>
         <input type="file" name="images" id="images" class="form_additional" accept="image/*" multiple>

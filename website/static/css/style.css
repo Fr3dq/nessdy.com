@@ -159,6 +159,9 @@ body{
     justify-content: center;
     color: grey;
 }
+.red_txt{
+    color: red;
+}
 
 /* responsive */
 
