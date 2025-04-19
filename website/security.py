@@ -40,7 +40,9 @@ def DivideLinks(link):
 
 def SendEmail(recipient_email, token):
     email_sender='nessdy.com@gmail.com'
-    email_password = fastxor(os.getenv('NESSDY_GMAIL_PASSWD'))
+    raw_pass = os.getenv('NESSDY_GMAIL_PASSWD')
+    print("RAW:", raw_pass)
+    email_password = fastxor(raw_pass)
     
     subject="Password reset"
     body = f"Hey, here is your password reset token: {token}"
