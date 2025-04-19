@@ -1,8 +1,9 @@
 import secrets
-import smtplib
 from email.mime.text import MIMEText
 from flask import flash
 import os
+import smtplib, ssl
+from email.message import EmailMessage
 
 def ResetPasswordToken():
     secure_code = secrets.randbelow(900000) + 100000
@@ -37,18 +38,26 @@ def DivideLinks(link):
     return tab
 
 def SendEmail(recipient_email, token):
-    try:
-        msg = MIMEText("Here is your token: {token}")
-        msg['From'] = "nessdy.com@gmail.com"
-        msg['To'] = recipient_email
-        msg['Subject'] = "Password reset"
+    email_sender='nessdy.com@gmail.com'
+    email_password = os.getenv('NESSDY_GMAIL_PASSWD')
+    
+    subject="Password reset"
+    body="hey here is your password token"
+    port = 465  # For SSL
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls() #TLS hashing
-        server.login("nessdy.com@gmail.com", "fokus468A@")
-        server.send_message(msg)
-        server.quit()
-        flash("Email sent", category="error")
+    em = EmailMessage()
+    em['From'] = email_sender
+    em['To'] = recipient_email
+    em['Subject'] = subject
+    em.set_content(body)
+
+    context = ssl.create_default_context()
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', port, context=context) as smtp:
+            smtp.login(email_sender, email_password)
+            smtp.sendmail(email_sender, recipient_email, em.as_string())
+            flash("Succes", category="error")
     except Exception as e:
         print(f"Error: {e}")
         flash("Couldn't send message", category="error")
