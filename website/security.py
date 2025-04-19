@@ -22,16 +22,63 @@ def StrongPasswordVeryfication(password): #It chceks if password is correct
          
 
 def DetectHarmfulLinks(link): #It checks if entered links are valid and safe
-    counter = 0
-    tab = ['www.facebook.com', 'www.instagram.com', 'www.x.com', 'www.github.com', 'www.tiktok.com', 'www.stackoverflow.com', 'www.pinterest.com', 'www.youtube.com', 'spotify.com'
-           '//facebook.com', '//instagram.com', '//x.com', '//github.com', '//tiktok.com', '//stackoverflow.com', '//pinterest.com', '//youtube.com']
+    tab = [ 
+            'facebook.com', 
+            'instagram.com', 
+            'x.com', 
+            'github.com', 
+            'tiktok.com', 
+            'stackoverflow.com', 
+            'pinterest.com', 
+            'youtube.com',      
+            'spotify.com',
+            'dribbble.com',
+            'deviantart.com',
+            'artstation.com',
+            'canva.com',
+            'pixiv.net',
+            'fiverr.com',
+            '99designs.com',
+            'unsplash.com',
+            'pexels.com',
+            'vimeo.com',
+            'snapchat.com',
+            'lightroom.adobe.com',
+            'vsco.co',
+            'dpreview.com',
+            'soundcloud.com',
+            'bandcamp.com',
+            'audiomack.com',
+            'splicer.io',
+            'landr.com',
+            'distrokid.com',
+            'tunecore.com',
+            'codepen.io',
+            'glitch.com',
+            'replit.com',
+            'github.io',
+            'github.com',
+            'gitlab.com',
+            'notion.so',
+            'figma.com',
+            'linear.app',
+            'reddit.com',
+            'discord.com',
+            'patreon.com',
+            'kickstarter.com',
+            'ko-fi.com',
+            'threads.net',
+            'clubhouse.com',
+            'medium.com',
+            'wattpad.com',
+            'substack.com',
+            'scrivener.com',
+            'campfirewriting.com',
+            'ao3.org']
+    
     for x in tab:
-        for y in link:
-            if x in y:
-                counter += 1
-    print(counter)
-    if counter == len(link):
-        return 0
+        if x in link:
+            return 0
     return 1
 
 def CheckForSpecialSigns(data): #It checks if special characters are entered
