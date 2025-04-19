@@ -105,7 +105,7 @@ def token():
                 user.token = ResetPasswordToken() * 10
                 db.session.commit()
                 flash('succes', category='error')
-                return render_template("login.html", user=current_user)
+                return render_template("home.html", user=current_user)
         else:
             flash('Invalid code', category='error')
 

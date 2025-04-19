@@ -35,7 +35,7 @@ def DivideLinks(link):
     tab = link.split(" ")
     for i in tab: 
         if i == '':
-            tab.remove(i)
+            tab.remove(i) 
     return tab
 
 def SendEmail(recipient_email, token):
