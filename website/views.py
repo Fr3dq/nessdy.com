@@ -3,7 +3,7 @@ from flask_login import current_user
 from .models import Note, Links, Image
 from . import db
 import json
-from .security import CheckForSpecialSigns, DivideLinks
+from .security import CheckForSpecialSigns, DivideLinks, CheckIfNotTooBig
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -13,6 +13,7 @@ import uuid
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER_2 = os.path.join(BASE_DIR, 'static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+MAX_IMAGES_SIZE = 25 * 1024 * 1024 #25MB
 
 if not os.path.exists(UPLOAD_FOLDER_2):
     os.makedirs(UPLOAD_FOLDER_2)
@@ -58,6 +59,8 @@ def facts():
             flash('Specyfication is too long', category='error')  
         elif len(files) > 8:
             flash("You can upload up to 8 images", category='error')
+        elif CheckIfNotTooBig(files, MAX_IMAGES_SIZE):
+            flash("Your files are too big", category='error')
         else:
             new_note = Note(
                 title=title,

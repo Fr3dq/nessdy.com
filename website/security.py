@@ -2,6 +2,7 @@ import secrets
 import smtplib
 from email.mime.text import MIMEText
 from flask import flash
+import os
 
 def ResetPasswordToken():
     secure_code = secrets.randbelow(900000) + 100000
@@ -51,3 +52,16 @@ def SendEmail(recipient_email, token):
     except Exception as e:
         print(f"Error: {e}")
         flash("Couldn't send message", category="error")
+
+
+def CheckIfNotTooBig(files, size): 
+    file_length = 0
+    for file in files:
+        file.seek(0, os.SEEK_END)
+        file_length += file.tell()
+        file.seek(0)
+
+    if file_length > size:
+        return 1
+    else:
+        return 0
