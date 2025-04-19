@@ -43,7 +43,7 @@ def SendEmail(recipient_email, token):
     email_password = "rtst acsn jyjo lsyq"#fastxor(os.getenv('NESSDY_GMAIL_PASSWD'))
     
     subject="Password reset"
-    body="hey here is your password token"
+    body="hey here is your password token ", token
     port = 465  # For SSL
 
     em = EmailMessage()
