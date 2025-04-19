@@ -18,68 +18,7 @@ def StrongPasswordVeryfication(password): #It chceks if password is correct
             chcecker = True
     if chcecker != True:
         return 1
-    return 0
-         
-
-def DetectHarmfulLinks(link): #It checks if entered links are valid and safe
-    tab = [ 
-            'facebook.com', 
-            'instagram.com', 
-            'x.com', 
-            'github.com', 
-            'tiktok.com', 
-            'stackoverflow.com', 
-            'pinterest.com', 
-            'youtube.com',      
-            'spotify.com',
-            'dribbble.com',
-            'deviantart.com',
-            'artstation.com',
-            'canva.com',
-            'pixiv.net',
-            'fiverr.com',
-            '99designs.com',
-            'unsplash.com',
-            'pexels.com',
-            'vimeo.com',
-            'snapchat.com',
-            'lightroom.adobe.com',
-            'vsco.co',
-            'dpreview.com',
-            'soundcloud.com',
-            'bandcamp.com',
-            'audiomack.com',
-            'splicer.io',
-            'landr.com',
-            'distrokid.com',
-            'tunecore.com',
-            'codepen.io',
-            'glitch.com',
-            'replit.com',
-            'github.io',
-            'github.com',
-            'gitlab.com',
-            'notion.so',
-            'figma.com',
-            'linear.app',
-            'reddit.com',
-            'discord.com',
-            'patreon.com',
-            'kickstarter.com',
-            'ko-fi.com',
-            'threads.net',
-            'clubhouse.com',
-            'medium.com',
-            'wattpad.com',
-            'substack.com',
-            'scrivener.com',
-            'campfirewriting.com',
-            'ao3.org']
-    
-    for x in tab:
-        if x in link:
-            return 0
-    return 1
+    return 0       
 
 def CheckForSpecialSigns(data): #It checks if special characters are entered
     for i in data:

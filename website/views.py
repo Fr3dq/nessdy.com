@@ -3,7 +3,7 @@ from flask_login import current_user
 from .models import Note, Links, Image
 from . import db
 import json
-from .security import CheckForSpecialSigns, DivideLinks, DetectHarmfulLinks
+from .security import CheckForSpecialSigns, DivideLinks
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -55,9 +55,7 @@ def facts():
         elif CheckForSpecialSigns(title) == 1:
             flash('Do not use special characters', category='error')
         elif len(spec) > 500:
-            flash('Specyfication is too long', category='error')
-        elif DetectHarmfulLinks(link) == 1:
-            flash('Your links are unacceptable', category='error')    
+            flash('Specyfication is too long', category='error')  
         elif len(files) > 8:
             flash("You can upload up to 8 images", category='error')
         else:
