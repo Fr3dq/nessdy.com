@@ -134,4 +134,4 @@ def settings():
 
 @views.route('/admin')
 def admin():
-    return render_template("admin.html")
+    return render_template("admin.html", user=current_user)
