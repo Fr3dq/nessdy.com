@@ -6,6 +6,8 @@
     <div class="container">
         {% if user.email == "fryderyk.otolski@gmail.com" %}
         <p>welcome</p>
+        {% for user in users %}
+            <p>{{ user.email }}</p>
         {% else %}
         <h1>Acces denied!</h1>
         {% endif %}

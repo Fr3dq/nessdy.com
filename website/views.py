@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import current_user
-from .models import Note, Links, Image
+from .models import Note, Links, Image, User
 from . import db
 import json
 from .security import CheckForSpecialSigns, DivideLinks, CheckIfNotTooBig
@@ -134,4 +134,5 @@ def settings():
 
 @views.route('/admin')
 def admin():
-    return render_template("admin.html", user=current_user)
+    users = User.query.all()
+    return render_template("admin.html", user=current_user, users=users)
