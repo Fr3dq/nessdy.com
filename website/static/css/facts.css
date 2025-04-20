@@ -60,6 +60,12 @@
     margin-top: 14px;
 }
 
+select{
+    border-color: #803bff;
+    border-radius: 8px;
+    padding: 5px;
+}
+
 .description{
     overflow: hidden;
     word-wrap: break-word;
