@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     name_surname = db.Column(db.String(150), nullable = False)
     password = db.Column(db.String(500), nullable = False)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
+    status = db.Column(db.String(2000), nullable = True)
     token = db.Column(db.Integer, nullable = True)
     notes = db.relationship('Note')
 
