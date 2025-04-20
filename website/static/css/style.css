@@ -10,7 +10,10 @@ body{
     margin: auto;
     border: 0.5px solid black;
 }
-/*
+
+.container{
+    padding: 0;
+}
 
 /* flash messages*/
 
