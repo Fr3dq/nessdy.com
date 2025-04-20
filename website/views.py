@@ -27,10 +27,17 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html", user=current_user)
 
+
 @views.route('/cloud')
 def shop():
-    all_notes = Note.query.all()
-    return render_template("shop.html", user=current_user, notes=all_notes)
+    category = request.args.get('category', 'all')
+
+    if category == 'all':
+        filtered_notes = Note.query.all()
+    else:
+        filtered_notes = Note.query.filter_by(category=category).all()
+
+    return render_template("shop.html", user=current_user, notes=filtered_notes, selected_category=category)
 
 @views.route('/create', methods=['GET', 'POST'])
 def facts():

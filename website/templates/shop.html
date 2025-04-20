@@ -8,29 +8,30 @@
     <br>
     <ul class="list-group" id="notes">
         <p>Filter by: </p>
-        <div class="custom-select">
-            <select name ="select" id="select" class="select">
-                <option value="all">Other</option>
-                <option value="activism">Activism & Social Impact</option>
-                <option value="animation">Animation & Illustration</option>
-                <option value="ar-vr">AR/VR</option>
-                <option value="community">Community Projects</option>
-                <option value="digital-art">Digital Art</option>
-                <option value="diy">DIY & Crafts</option>
-                <option value="education">Education</option>
-                <option value="fashion">Fashion & Textiles</option>
-                <option value="film">Film & Video</option>
-                <option value="game-dev">Game Development</option>
-                <option value="graphic-design">Graphic Design</option>
-                <option value="literature">Literature & Writing</option>
-                <option value="music">Music & Audio Production</option>
-                <option value="painting">Painting</option>
-                <option value="photography">Photography</option>
-                <option value="product-design">Product Design</option>
-                <option value="programming">Programming</option>
-                <option value="web-dev">Web Development</option>
+        <form method="get" action="{{ url_for('views.shop') }}">
+            <label for="select">Filter by:</label>
+            <select name="category" id="select" class="select" onchange="this.form.submit()">
+                <option value="all" {% if selected_category == 'all' %}selected{% endif %}>Other</option>
+                <option value="activism" {% if selected_category == 'activism' %}selected{% endif %}>Activism & Social Impact</option>
+                <option value="animation" {% if selected_category == 'animation' %}selected{% endif %}>Animation & Illustration</option>
+                <option value="ar-vr" {% if selected_category == 'ar-vr' %}selected{% endif %}>AR/VR</option>
+                <option value="community" {% if selected_category == 'community' %}selected{% endif %}>Community Projects</option>
+                <option value="digital-art" {% if selected_category == 'digital-art' %}selected{% endif %}>Digital Art</option>
+                <option value="diy" {% if selected_category == 'diy' %}selected{% endif %}>DIY & Crafts</option>
+                <option value="education" {% if selected_category == 'education' %}selected{% endif %}>Education</option>
+                <option value="fashion" {% if selected_category == 'fashion' %}selected{% endif %}>Fashion & Textiles</option>
+                <option value="film" {% if selected_category == 'film' %}selected{% endif %}>Film & Video</option>
+                <option value="game-dev" {% if selected_category == 'game-dev' %}selected{% endif %}>Game Development</option>
+                <option value="graphic-design" {% if selected_category == 'graphic-design' %}selected{% endif %}>Graphic Design</option>
+                <option value="literature" {% if selected_category == 'literature' %}selected{% endif %}>Literature & Writing</option>
+                <option value="music" {% if selected_category == 'music' %}selected{% endif %}>Music & Audio Production</option>
+                <option value="painting" {% if selected_category == 'painting' %}selected{% endif %}>Painting</option>
+                <option value="photography" {% if selected_category == 'photography' %}selected{% endif %}>Photography</option>
+                <option value="product-design" {% if selected_category == 'product-design' %}selected{% endif %}>Product Design</option>
+                <option value="programming" {% if selected_category == 'programming' %}selected{% endif %}>Programming</option>
+                <option value="web-dev" {% if selected_category == 'web-dev' %}selected{% endif %}>Web Development</option>
             </select>
-        </div>
+        </form>
         {% for note in notes %}
         <h3 class="note-title">{{ note.title }} ~ {{ note.username }}</h3>
         <li class="list-group-item">
