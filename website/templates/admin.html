@@ -3,9 +3,11 @@
 {% block title %}Admin{% endblock %}
 
 {% block content %}
-    {% if user.email == "fryderyk.otolski@gmail.com" %}
-    <p>welcome</p>
-    {% else %}
-    <h1>Acces denied!</h1>
-    {% endif %}
+    <div class="container">
+        {% if user.email == "fryderyk.otolski@gmail.com" %}
+        <p>welcome</p>
+        {% else %}
+        <h1>Acces denied!</h1>
+        {% endif %}
+    </div> 
 {% endblock %}
