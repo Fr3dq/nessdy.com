@@ -131,3 +131,7 @@ def settings():
     if request.method == 'POST':
         return render_template("facts.html", user=current_user)
     return render_template("settings.html", user=current_user, now=datetime.now())
+
+@views.route('/admin')
+def admin():
+    return render_template("admin.html")
