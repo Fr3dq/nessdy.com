@@ -10,7 +10,7 @@
         <form method="get" action="{{ url_for('views.shop') }}">
             <label for="select">Filter by:</label>
             <select name="category" id="select" class="select" onchange="this.form.submit()">
-                <option value="all" {% if selected_category == 'all' %}selected{% endif %}>Other</option>
+                <option value="all" {% if selected_category == 'all' %}selected{% endif %}>No filter</option>
                 <option value="activism" {% if selected_category == 'activism' %}selected{% endif %}>Activism & Social Impact</option>
                 <option value="animation" {% if selected_category == 'animation' %}selected{% endif %}>Animation & Illustration</option>
                 <option value="ar-vr" {% if selected_category == 'ar-vr' %}selected{% endif %}>AR/VR</option>
