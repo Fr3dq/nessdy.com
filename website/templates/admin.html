@@ -7,7 +7,13 @@
         {% if user.email == "fryderyk.otolski@gmail.com" %}
         <h1>Welcome fr3d!</h1>
             {% for user in users %}
-                <p>{{ user.email }}</p>
+                <div class="box">
+                    <p>{{ user.email }}</p>
+                    <p>Username: {{ user.first_name }}</p>
+                    <p>Surename & name: {{ user.name_surname }}</p>
+                    <p>Account created: {{ user.date }}</p>
+                    <p>Status: {{ user.status }}</p>
+                </div>
             {% endfor %}
         {% else %}
         <h1>Acces denied!</h1>

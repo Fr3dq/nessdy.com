@@ -1,3 +1,15 @@
 .container{
     min-height: 800px;
 }
+.box{
+    width: 100%;
+    min-height: 10px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #803bff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: top;
+    justify-content: space-between;
+}
