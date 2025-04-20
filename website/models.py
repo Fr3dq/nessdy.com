@@ -17,6 +17,7 @@ class Note(db.Model):
 
     title = db.Column(db.String(200), nullable = False)
     data = db.Column(db.String(30000), nullable = True)
+    category = db.Column(db.String(2000), nullable = False)
     spec = db.Column(db.String(600), nullable = True)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     username = db.Column(db.String(150), nullable = False)

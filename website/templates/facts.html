@@ -19,7 +19,7 @@
         <br>
         <h4>Choose category</h4>
         <div class="custom-select">
-            <select class="select">
+            <select name ="select" id="select" class="select">
               <option value="all">all</option>
               <option value="music">music</option>
               <option value="art">art</option>
@@ -73,7 +73,7 @@
                 </button>
             </div> 
             <div class="content">
-                <h4 class="space">{{ note.title }}</h4>
+                <h4 class="space">{{ note.title }} - {{ note.category }}</h4>
                 <h4 class="space">Description</h4>
                 <p class="description">{{ note.data.replace('\n', '<br>') | safe }}</p>
                 <h4 class="space">{% if note.spec and note.spec|trim != '' %} Specifications {% endif %}</h4>

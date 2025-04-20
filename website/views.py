@@ -37,6 +37,7 @@ def facts():
     if request.method == 'POST':
         title = request.form.get('title')
         note = request.form.get('note')
+        category = request.form.get('select')
         spec = request.form.get('spec')
         link = request.form.get('social')
         link = DivideLinks(link)
@@ -65,6 +66,7 @@ def facts():
             new_note = Note(
                 title=title,
                 data=note,
+                category=category,
                 spec=spec,
                 user_id=current_user.id,
                 username=current_user.first_name
