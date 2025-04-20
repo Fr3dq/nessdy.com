@@ -3,5 +3,9 @@
 {% block title %}Admin{% endblock %}
 
 {% block content %}
-    <p>admin panel</p>
+    {% if user.email == "fryderyk.otolski@gmail.com" %}
+    <p>welcome</p>
+    {% else %}
+    <h1>Acces denied!</h1>
+    {% endif %}
 {% endblock %}
