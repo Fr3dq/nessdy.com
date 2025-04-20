@@ -4,7 +4,7 @@
 
 {% block content %}
     <style>
-        .container {
+        .container_admin {
             min-height: 800px;
         }
         .box {
@@ -20,8 +20,8 @@
             justify-content: space-between;
         }
     </style>
-    
-    <div class="container">
+
+    <div class="container_admin">
         {% if user.email == "fryderyk.otolski@gmail.com" %}
         <h1>Welcome fr3d!</h1>
             {% for user in users %}
