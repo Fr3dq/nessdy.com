@@ -7,7 +7,6 @@
     <p class="title-text">Here, you will find a list of all the projects that have been created</p>
     <br>
     <ul class="list-group" id="notes">
-        <p>Filter by: </p>
         <form method="get" action="{{ url_for('views.shop') }}">
             <label for="select">Filter by:</label>
             <select name="category" id="select" class="select" onchange="this.form.submit()">
