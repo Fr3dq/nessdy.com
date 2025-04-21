@@ -62,7 +62,7 @@
                 {% endfor %}  
             </div>
         </li>
-        <p class="date" >{{ note.date }}</p>
+        <p class="date">{{ note.date.strftime('%Y-%m-%d') }}</p>
         <br>
         {% endfor %}
     </ul>
