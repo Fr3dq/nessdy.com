@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import current_user
 from .models import Note, Links, Image, User
+from sqlalchemy import func
 from . import db
 import json
 from .security import CheckForSpecialSigns, DivideLinks, CheckIfNotTooBig
@@ -135,5 +136,5 @@ def settings():
 @views.route('/admin')
 def admin():
     users = User.query.all()
-    counter_users = len(users)
-    return render_template("admin.html", user=current_user, users=users, counter_users=counter_users)
+    user_count = db.session.query(func.count(User.id)).scalar()
+    return render_template("admin.html", user=current_user, users=users, user_count=user_count)

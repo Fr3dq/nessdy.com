@@ -26,7 +26,7 @@
         {% if user.email == "fryderyk.otolski@gmail.com" %}
         <h1>Welcome fr3d!</h1>
         <br>
-        <p>All users: {% counter_users %}</p>
+        <p>All users: {{ user_count }}</p>
         <br>
             {% for user in users %}
                 <div class="box">
