@@ -137,4 +137,5 @@ def settings():
 def admin():
     users = User.query.all()
     user_count = db.session.query(func.count(User.id)).scalar()
-    return render_template("admin.html", user=current_user, users=users, user_count=user_count)
+    project_count = db.session.query(func.count(Note.id)).scalar()
+    return render_template("admin.html", user=current_user, users=users, user_count=user_count, project_count=project_count)
