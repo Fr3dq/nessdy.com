@@ -135,4 +135,5 @@ def settings():
 @views.route('/admin')
 def admin():
     users = User.query.all()
-    return render_template("admin.html", user=current_user, users=users)
+    counter_users = len(users)
+    return render_template("admin.html", user=current_user, users=users, counter_users=counter_users)
