@@ -58,7 +58,7 @@ def sing_up():
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created', category='success')
-            return redirect(url_for('views.home'))
+            return redirect(url_for('auth.verify'))
 
     return render_template("sign_up.html", user = current_user)
 
@@ -110,3 +110,9 @@ def token():
             flash('Invalid code', category='error')
 
     return render_template("token.html", user=current_user)
+
+@auth.route('/verify', methods=['GET', 'POST'])
+def verify():
+    if request.method == 'POST':
+        code = request.form.get('verify')
+    return render_template("verify.html", user=current_user)
