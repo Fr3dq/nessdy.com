@@ -141,7 +141,7 @@ def admin():
             try:
                 user_id = int(user_id_block)
                 user = User.query.get(user_id)
-                if user & user_id != 1: #It must be different than 1 because 1 is me (admin)
+                if user and user_id != 1: #It must be different than 1 because 1 is me (admin)
                     user.status = "blocked"
                     db.session.commit()
                 else:
