@@ -20,6 +20,9 @@
             align-items: top;
             justify-content: space-between;
         }
+        .un-block-form{
+            width: 30%;
+        }
     </style>
 
     <div class="container_admin">
@@ -29,17 +32,19 @@
         <p>All users: {{ user_count }}</p>
         <p>All projects: {{ project_count }}</p>
         <br>
-        <form method="POST" class="block-form">
+        <div class="un-block-form">
+            <form method="POST" class="block-form">
             <label for="email">Enter id of user that you want to block</label>
             <input type="number" class="form-control" id="block" name="block" placeholder="Enter id">
             <button type="submit" class="btn-primary">Block</button>
-        </form>
+            </form>
 
-        <form method="POST" class="unblock-form">
-            <label for="email">Enter id of user that you want to unblock</label>
-            <input type="number" class="form-control" id="unblock" name="unblock" placeholder="Enter id">
-            <button type="submit" class="btn-primary">UnBlock</button>
-        </form>
+            <form method="POST" class="unblock-form">
+                <label for="email">Enter id of user that you want to unblock</label>
+                <input type="number" class="form-control" id="unblock" name="unblock" placeholder="Enter id">
+                <button type="submit" class="btn-primary">UnBlock</button>
+            </form>
+        </div>
 
             {% for user in users %}
                 <div class="box">
