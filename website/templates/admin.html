@@ -33,6 +33,9 @@
             width: 40%;
             margin: 4px;
         }
+        button{
+            margin-top: 2px;
+        }
     </style>
 
     <div class="container_admin">
@@ -46,14 +49,12 @@
             <form method="POST" class="block-form">
                 <label for="email">Enter id of user that you want to block</label>
                 <input type="number" class="form-control" id="block" name="block" placeholder="Enter id">
-                <br>
                 <button type="submit" class="btn-primary">Block</button>
             </form>
             <br>
             <form method="POST" class="unblock-form">
                 <label for="email">Enter id of user that you want to unblock</label>
                 <input type="number" class="form-control" id="unblock" name="unblock" placeholder="Enter id">
-                <br>
                 <button type="submit" class="btn-primary">UnBlock</button>
             </form>
         </div>
