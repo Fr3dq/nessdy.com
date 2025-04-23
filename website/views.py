@@ -54,7 +54,9 @@ def facts():
         print(f"FILES RECEIVED: {[file.filename for file in files]}")
         print(f"UPLOAD_FOLDER_2 = {UPLOAD_FOLDER_2}")
 
-        if len(note) >= 30000:
+        if current_user.status == "blocked":
+            flash('Your account is blocked. Contact us', category='error')
+        elif len(note) >= 30000:
             flash('Description is too long', category='error')
         elif len(note) < 1:
             flash('Description is too short', category='error')
