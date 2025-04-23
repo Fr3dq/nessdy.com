@@ -29,7 +29,11 @@
         <p>All users: {{ user_count }}</p>
         <p>All projects: {{ project_count }}</p>
         <br>
-
+        <form method="POST" class="block-form">
+            <label for="email">Enter id of user that you want to block</label>
+            <input type="number" class="form-control" id="block" name="block" placeholder="Enter id">
+            <button type="submit" class="btn-primary">Block</button>
+        </form>
 
             {% for user in users %}
                 <div class="box">

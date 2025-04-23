@@ -133,8 +133,22 @@ def settings():
         return render_template("facts.html", user=current_user)
     return render_template("settings.html", user=current_user, now=datetime.now())
 
-@views.route('/admin')
+@views.route('/admin', methods=['GET', 'POST'])
 def admin():
+    if request.method == 'POST':
+        user_id_block = request.form.get('block')
+        if user_id_block:
+            try:
+                user_id = int(user_id_block)
+                user = User.query.get(user_id)
+                if user & user_id != 1: #It must be different than 1 because 1 is me (admin)
+                    user.status = "blocked"
+                    db.session.commit()
+                else:
+                    flash("User not found or is an admin", category="error")
+            except ValueError:
+                flash("Invalid user ID", category="error")
+
     users = User.query.all()
     user_count = db.session.query(func.count(User.id)).scalar()
     project_count = db.session.query(func.count(Note.id)).scalar()
