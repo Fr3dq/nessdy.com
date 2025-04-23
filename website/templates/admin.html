@@ -34,6 +34,7 @@
             {% for user in users %}
                 <div class="box">
                     <p>{{ user.email }}</p>
+                    <p>Id: {{ user.id }}</p>
                     <p>Username: {{ user.first_name }}</p>
                     <p>Surename & name: {{ user.name_surname }}</p>
                     <p>Account created: {{ user.date }}</p>
