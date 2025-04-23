@@ -21,7 +21,15 @@
             justify-content: space-between;
         }
         .un-block-form{
-            width: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .block-form{
+            width: 40%;
+        }
+        .unblock-form{
+            width: 40%;
         }
     </style>
 
@@ -38,13 +46,14 @@
             <input type="number" class="form-control" id="block" name="block" placeholder="Enter id">
             <button type="submit" class="btn-primary">Block</button>
             </form>
-
+            <br>
             <form method="POST" class="unblock-form">
                 <label for="email">Enter id of user that you want to unblock</label>
                 <input type="number" class="form-control" id="unblock" name="unblock" placeholder="Enter id">
                 <button type="submit" class="btn-primary">UnBlock</button>
             </form>
         </div>
+        <br>
 
             {% for user in users %}
                 <div class="box">
