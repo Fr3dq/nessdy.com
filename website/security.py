@@ -38,14 +38,18 @@ def DivideLinks(link):
             tab.remove(i) 
     return tab
 
-def SendEmail(recipient_email, token):
+def SendEmail(recipient_email, token, version):
     email_sender='nessdy.com@gmail.com'
     email_password = os.getenv('NESSDY_GMAIL_PASSWD')
-    
-    subject="Password reset"
-    body = f"Hey, here is your password reset token: {token}"
     port = 465  # For SSL
 
+    if version == 1:
+        subject="Password reset"
+        body = f"Hey, here is your password reset token: {token}"
+    if version == 2:
+        subject="Account verification"
+        body = f"Hey, here is your verification code: {token}"
+    
     em = EmailMessage()
     em['From'] = email_sender
     em['To'] = recipient_email

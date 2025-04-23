@@ -36,7 +36,6 @@ def sing_up():
         name_surname = request.form.get('Name_surname')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        verified = False
 
         user = User.query.filter_by(email=email).first()
         username = User.query.filter_by(first_name=first_name).first()
@@ -54,9 +53,11 @@ def sing_up():
         elif StrongPasswordVeryfication(password1) == 1:
             flash('Password is too short or do not contain special character (#...)', category='error')
         else:
-            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=verified)
+            sing_up_token = ResetPasswordToken() * 10
+            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sing_up_token)
             db.session.add(new_user)
             db.session.commit()
+            SendEmail(email, sing_up_token, 2)
             login_user(new_user, remember=True)
             flash('Account created', category='success')
             return redirect(url_for('auth.verify'))
@@ -80,7 +81,7 @@ def reset():
         token = ResetPasswordToken()
         user_email.token = token
         db.session.commit()
-        SendEmail(email, token)
+        SendEmail(email, token, 1)
         return redirect(url_for('auth.token', email=email))
     else:
         flash("Email does not exist", category="error")
