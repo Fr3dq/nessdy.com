@@ -119,6 +119,7 @@ def verify():
         code = request.form.get('verify')
         if code == user.verified: 
             user.verified = "yes"
+            db.session.commit()
             login_user(user, remember=True)
             flash('Account created', category='success')
             return redirect(url_for('views.facts'))
