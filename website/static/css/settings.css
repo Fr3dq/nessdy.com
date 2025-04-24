@@ -80,7 +80,7 @@
 }
 .btn_exit:hover{
     background-color: #0e0420;
-    box-shadow: 0 0 20px grey;
+    box-shadow: 0 0 20px rgb(179, 179, 179);
     color: white;
 }
 
