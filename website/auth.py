@@ -14,8 +14,9 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(email=email).first()
+        verified = user.verified
 
-        if user:
+        if user and verified == "yes":
             if  check_password_hash(user.password, password):
                 flash('You are logged in', category='success')
                 login_user(user, remember=True)
