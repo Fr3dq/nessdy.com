@@ -58,9 +58,7 @@ def sing_up():
             db.session.add(new_user)
             db.session.commit()
             SendEmail(email, sing_up_token, 2)
-            login_user(new_user, remember=True)
-            flash('Account created', category='success')
-            return redirect(url_for('auth.verify'))
+            return redirect(url_for('auth.verify', user_email=new_user.email))
 
     return render_template("sign_up.html", user = current_user)
 
@@ -115,6 +113,15 @@ def token():
 
 @auth.route('/verify', methods=['GET', 'POST'])
 def verify():
+    user_email = request.args.get('user_email')
+    user = User.query.get(user_email)
     if request.method == 'POST':
         code = request.form.get('verify')
+        if code == user.verified: 
+            login_user(user, remember=True)
+            flash('Account created', category='success')
+            return redirect(url_for('views.facts'))
+        else:
+            flash('Incorrect code', category='success')
+
     return render_template("verify.html", user=current_user) 
