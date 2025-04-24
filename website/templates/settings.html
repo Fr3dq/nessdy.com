@@ -8,6 +8,21 @@
     <title>settings</title>
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {%for category, message in messages %}
+        {% if category == 'error' %}
+        <div class="alert" role="alert">
+        {{ message }}
+        </div>
+        {% else %}
+        <div class="alert" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     <div class="container">
         <div class="title-block"><h1>SETTINGS & INFO</h1></div>
         <div class="info-container">
