@@ -39,6 +39,8 @@
         resize: none;
     }
     </style>
+    
+    <div class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {%for category, message in messages %}
@@ -54,7 +56,6 @@
         {% endfor %}
     {% endif %}
     {% endwith %}
-    <div class="container">
         <div class="title-block"><h1>SETTINGS & INFO</h1></div>
         <div class="info-container">
             <form action="{{ url_for('views.settings') }}" method="POST">
