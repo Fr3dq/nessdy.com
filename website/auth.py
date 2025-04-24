@@ -114,7 +114,7 @@ def token():
 @auth.route('/verify', methods=['GET', 'POST'])
 def verify():
     user_email = request.args.get('user_email')
-    user = User.query.get(user_email)
+    user = User.query.filter_by(email=user_email).first()
     if request.method == 'POST':
         code = request.form.get('verify')
         if code == user.verified: 
