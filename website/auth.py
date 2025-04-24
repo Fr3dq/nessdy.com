@@ -118,6 +118,7 @@ def verify():
     if request.method == 'POST':
         code = request.form.get('verify')
         if code == user.verified: 
+            user.verified = "yes"
             login_user(user, remember=True)
             flash('Account created', category='success')
             return redirect(url_for('views.facts'))
