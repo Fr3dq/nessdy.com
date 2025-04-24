@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import current_user
 from .models import Note, Links, Image, User
 from sqlalchemy import func
@@ -9,6 +9,7 @@ import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import uuid
+from .security import SendEmail
 
 # Uploading images
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -132,7 +133,16 @@ def delete_note():
 @views.route('/settings', methods=['GET', 'POST'])
 def settings():
     if request.method == 'POST':
-        return render_template("facts.html", user=current_user)
+        action = request.form.get("action")
+
+        if action == "back":
+            return redirect(url_for('views.settings'))
+        elif action == "send_email":
+            email = current_user.email
+            problem = request.form.get("problem")
+            SendEmail("nessdy.com@gmail.com", problem, 3, email)
+            return render_template("settings.html", user=current_user)
+        
     return render_template("settings.html", user=current_user, now=datetime.now())
 
 @views.route('/admin', methods=['GET', 'POST'])

@@ -12,7 +12,7 @@
         <div class="title-block"><h1>SETTINGS & INFO</h1></div>
         <div class="info-container">
             <form action="{{ url_for('views.settings') }}" method="POST">
-                <button type="submit" class="btn_exit">BACK</button>
+                <button type="submit" name="action" value="back" class="btn_exit">BACK</button>
             </form>
             <div class="element"><p>Username: {{ user.first_name }}</p></div>
             <div class="element"><p>Name & Surname: {{ user.name_surname }}</p></div>
@@ -33,6 +33,13 @@
             <div class="element"><p>For inquiries, complaints, or copyright concerns, please contact us at nessdy.com@gmail.com. 
                 We are committed to ensuring a positive and productive environment for all users and will address concerns promptly</p></div>
             <div class="element"><p>Mail: <a class="mail_link" href="mailto:nessdy.com@gmail.com">nessdy.com@gmail.com</a></p></div>
+            <h4>Write about your problem</h4>
+            <form action="{{ url_for('views.settings') }}" method="POST">
+                <textarea name="problem" id="problem" class="form_additional" placeholder="..."></textarea>
+                <div>
+                    <button type="submit" name="action" value="send_email" class="btn">Send</button>
+                </div>
+            </form>
         </div>
         <div class="title-block"><h1>Q&A</h1></div>
         <div class="info-container">
