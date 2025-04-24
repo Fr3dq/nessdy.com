@@ -134,10 +134,8 @@ def delete_note():
 def settings():
     if request.method == 'POST':
         action = request.form.get("action")
-
-        if action == "back":
-            return redirect(url_for('views.settings'))
-        elif action == "send_email":
+        
+        if action == "send_email":
             email = current_user.email
             problem = request.form.get("problem")
             SendEmail("nessdy.com@gmail.com", problem, 3, email)
