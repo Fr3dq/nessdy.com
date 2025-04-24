@@ -141,7 +141,7 @@ def settings():
             email = current_user.email
             problem = request.form.get("problem")
             SendEmail("nessdy.com@gmail.com", problem, 3, email)
-            return render_template("settings.html", user=current_user)
+            return redirect(url_for('views.settings'))
         
     return render_template("settings.html", user=current_user, now=datetime.now())
 
