@@ -134,14 +134,19 @@ def delete_note():
 def settings():
     if request.method == 'POST':
         action = request.form.get("action")
+        problem = request.form.get("problem")
 
         if action == "back":
             return redirect(url_for('views.facts'))
-        elif action == "send_email":
+        elif problem == "":
+            flash("Your message is empty", category="success")
+        elif action == "send_email" and current_user.status != "blocked":
             email = current_user.email
-            problem = request.form.get("problem")
+            
             SendEmail("nessdy.com@gmail.com", problem, 3, email)
             return redirect(url_for('views.settings'))
+        else:
+            flash("Your account is blocked", category="success")
         
     return render_template("settings.html", user=current_user, now=datetime.now())
 
