@@ -136,7 +136,7 @@ def settings():
         action = request.form.get("action")
 
         if action == "back":
-            return redirect(url_for('views.settings'))
+            return redirect(url_for('views.create'))
         elif action == "send_email":
             email = current_user.email
             problem = request.form.get("problem")
