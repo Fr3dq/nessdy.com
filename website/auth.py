@@ -115,21 +115,21 @@ def token():
     return render_template("token.html", user=current_user)
 
 @auth.route('/verify', methods=['GET', 'POST'])
-def verify():
-    try:
-        user_email = request.args.get('user_email')
-        user = User.query.filter_by(email=user_email).first()
-    except:
-        flash('We are sorry. Contact us', category='success')
+def verify():   
     if request.method == 'POST':
-        code = request.form.get('verify')
-        if code == user.verified: 
-            user.verified = "yes"
-            db.session.commit()
-            login_user(user, remember=True)
-            flash('Account created', category='success')
-            return redirect(url_for('views.facts'))
-        else:
-            flash('Incorrect code', category='success')
+        try:
+            user_email = request.args.get('user_email')
+            user = User.query.filter_by(email=user_email).first()
+            code = request.form.get('verify')
+            if code == user.verified: 
+                user.verified = "yes"
+                db.session.commit()
+                login_user(user, remember=True)
+                flash('Account created', category='success')
+                return redirect(url_for('views.facts'))
+            else:
+                flash('Incorrect code', category='success')
+        except:
+            flash('We are sorry. Contact us', category='success')
 
     return render_template("verify.html", user=current_user) 
