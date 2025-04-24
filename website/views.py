@@ -142,7 +142,6 @@ def settings():
             flash("Your message is empty", category="success")
         elif action == "send_email" and current_user.status != "blocked":
             email = current_user.email
-            
             SendEmail("nessdy.com@gmail.com", problem, 3, email)
             return redirect(url_for('views.settings'))
         else:
