@@ -1,10 +1,19 @@
-{% extends "base.html" %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/settings.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='policy_opener.js') }}"></script>
+    <title>settings</title>
+</head>
 <body>
     <div class="container">
         <div class="title-block"><h1>SETTINGS & INFO</h1></div>
         <div class="info-container">
+            <form action="{{ url_for('views.settings') }}" method="POST">
+                <button type="submit" name="action" value="back" class="btn_exit">BACK</button>
+            </form>
             <div class="element"><p>Username: {{ user.first_name }}</p></div>
             <div class="element"><p>Name & Surname: {{ user.name_surname }}</p></div>
             <div class="element"><p>Mail: {{ user.email }}</p></div>
@@ -28,7 +37,7 @@
             <form action="{{ url_for('views.settings') }}" method="POST">
                 <textarea name="problem" id="problem" class="form_additional" placeholder="..."></textarea>
                 <div>
-                    <button type="submit" name="action" value="send_email" class="btn">Send</button>
+                    <button type="submit" name="action" value="send_email" class="btn_exit">Send</button>
                 </div>
             </form>
         </div>
@@ -66,4 +75,4 @@
         <div class="title-block"><h1>OUR POLICY</h1></div>
         <div class="info-container"><pre id="textContent" class="policy">Loading...</pre></div>
 </body>
-{% endblock %}
+</html>
