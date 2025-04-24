@@ -140,6 +140,7 @@ def admin():
     if request.method == 'POST':
         user_id_block = request.form.get('block')
         user_id_unblock = request.form.get('unblock')
+        user_verify =  request.form.get("verify")
         if user_id_block:
             try:
                 user_id = int(user_id_block)
@@ -157,6 +158,17 @@ def admin():
                 user = User.query.get(user_id)
                 if user: 
                     user.status = "valid"
+                    db.session.commit()
+                else:
+                    flash("User not found", category="error")
+            except ValueError:
+                flash("Invalid user ID", category="error")
+        if user_verify:
+            try:
+                user_id = int(user_verify)
+                user = User.query.get(user_id)
+                if user: 
+                    user.verified = "yes"
                     db.session.commit()
                 else:
                     flash("User not found", category="error")

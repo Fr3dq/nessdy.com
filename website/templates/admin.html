@@ -25,11 +25,7 @@
             align-items: center;
             justify-content: center;
         }
-        .block-form{
-            width: 40%;
-            margin: 4px;
-        }
-        .unblock-form{
+        .form-control{
             width: 40%;
             margin: 4px;
         }
@@ -46,16 +42,21 @@
         <p>All projects: {{ project_count }}</p>
         <br>
         <div class="un-block-form">
-            <form method="POST" class="block-form">
+            <form method="POST" class="form-control">
                 <label for="block">Enter id of user that you want to block</label>
                 <input type="text" class="form-control" id="block" name="block" placeholder="Enter id">
                 <button type="submit" class="btn-primary">Block</button>
             </form>
             <br>
-            <form method="POST" class="unblock-form">
+            <form method="POST" class="form-control">
                 <label for="unblock">Enter id of user that you want to unblock</label>
                 <input type="text" class="form-control" id="unblock" name="unblock" placeholder="Enter id">
                 <button type="submit" class="btn-primary">UnBlock</button>
+            </form>
+            <form method="POST" class="form-control">
+                <label for="verify">Enter id of user that you want to verify</label>
+                <input type="text" class="form-control" id="verify" name="verify" placeholder="Enter id">
+                <button type="submit" class="btn-primary">Verify</button>
             </form>
         </div>
         <br>

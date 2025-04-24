@@ -4,7 +4,6 @@ from flask import flash
 import os
 import smtplib, ssl
 from email.message import EmailMessage
-from .useful_functions import fastxor
 
 def ResetPasswordToken():
     secure_code = secrets.randbelow(900000) + 100000

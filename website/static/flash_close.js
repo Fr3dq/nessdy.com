@@ -3,4 +3,4 @@ window.setTimeout(function() {
     alerts.forEach(function(alert) {
         alert.remove() 
     });
-}, 2300);
+}, 2450);

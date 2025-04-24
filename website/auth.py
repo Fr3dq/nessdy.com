@@ -24,6 +24,8 @@ def login():
             else:
                 flash('Incorrect password', category='error')
         else:
+            if verified != "yes":
+                flash('Account not vefified. Contact us', category='error')
             flash('Email does not exist', category='error')
 
    return render_template("login.html", user=current_user)
