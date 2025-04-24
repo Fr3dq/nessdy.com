@@ -83,6 +83,7 @@
             <h4>Write about your problem</h4>
             <form action="{{ url_for('views.settings') }}" method="POST">
                 <textarea name="problem" id="problem" class="form_additional" placeholder="..."></textarea>
+                <br>
                 <div>
                     <button type="submit" name="action" value="send_email" class="btn_exit">Send</button>
                 </div>
