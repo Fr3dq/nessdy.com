@@ -30,7 +30,7 @@ def login():
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
-def sing_up():
+def sign_up():
     if request.method == "POST":
         email = request.form.get('email')
         first_name = request.form.get("firstName")
@@ -58,7 +58,7 @@ def sing_up():
             new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sing_up_token)
             db.session.add(new_user)
             db.session.commit()
-            SendEmail(email, sing_up_token, 2)
+            SendEmail(email, sing_up_token, 2, "nessdy.com@gmail.com")
             return redirect(url_for('auth.verify', user_email=new_user.email))
 
     return render_template("sign_up.html", user = current_user)
@@ -80,7 +80,7 @@ def reset():
         token = ResetPasswordToken()
         user_email.token = token
         db.session.commit()
-        SendEmail(email, token, 1)
+        SendEmail(email, token, 1, "nessdy.com@gmail.com")
         return redirect(url_for('auth.token', email=email))
     else:
         flash("Email does not exist", category="error")
@@ -119,6 +119,7 @@ def verify():
         user = User.query.filter_by(email=user_email).first()
     except:
         flash('We are sorry. Contact us', category='success')
+
     if request.method == 'POST':
         code = request.form.get('verify')
         if code == user.verified: 

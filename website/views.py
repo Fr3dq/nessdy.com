@@ -154,6 +154,7 @@ def admin():
     if request.method == 'POST':
         user_id_block = request.form.get('block')
         user_id_unblock = request.form.get('unblock')
+        user_verify =  request.form.get("verify")
         if user_id_block:
             try:
                 user_id = int(user_id_block)
