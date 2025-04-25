@@ -116,20 +116,29 @@ def token():
 
 @auth.route('/verify', methods=['GET', 'POST'])
 def verify():   
-    if request.method == 'POST':
-        try:
-            user_email = request.args.get('user_email')
-            user = User.query.filter_by(email=user_email).first()
-            code = request.form.get('verify')
-            if code == user.verified: 
-                user.verified = "yes"
-                db.session.commit()
-                login_user(user, remember=True)
-                flash('Account created', category='success')
-                return redirect(url_for('views.facts'))
-            else:
-                flash('Incorrect code', category='success')
-        except:
-            flash('We are sorry. Contact us', category='success')
+    user = None
+    user_email = request.args.get('user_email')
 
-    return render_template("verify.html", user=current_user) 
+    if not user_email:
+        flash('Invalid verification link. Please try again.', category='error')
+        return redirect(url_for('auth.login'))
+
+    user = User.query.filter_by(email=user_email).first()
+
+    if not user:
+        flash('User not found. Please contact support.', category='error')
+        return redirect(url_for('auth.login'))
+
+    if request.method == 'POST':
+        code = request.form.get('verify')
+
+        if code == user.verified:  # Zakładam, że tu jest kod, a nie status
+            user.verified = "yes"
+            db.session.commit()
+            login_user(user, remember=True)
+            flash('Account verified successfully!', category='success')
+            return redirect(url_for('views.facts'))
+        else:
+            flash('Incorrect verification code.', category='error')
+
+    return render_template("verify.html", user=current_user, user_email=user_email)

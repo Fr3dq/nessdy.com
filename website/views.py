@@ -69,8 +69,8 @@ def facts():
             flash('Do not use special characters', category='error')
         elif len(spec) > 500:
             flash('Specyfication is too long', category='error')  
-        elif len(files) > 8:
-            flash("You can upload up to 8 images", category='error')
+        elif len(files) > 5:
+            flash("You can upload up to 5 images", category='error')
         elif CheckIfNotTooBig(files, MAX_IMAGES_SIZE):
             flash("Your files are too big", category='error')
         else:
