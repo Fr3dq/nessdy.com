@@ -32,7 +32,7 @@ def login():
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
-def sing_up():
+def sign_up():
     if request.method == "POST":
         email = request.form.get('email')
         first_name = request.form.get("firstName")
@@ -56,11 +56,11 @@ def sing_up():
         elif StrongPasswordVeryfication(password1) == 1:
             flash('Password is too short or do not contain special character (#...)', category='error')
         else:
-            sing_up_token = ResetPasswordToken() * 10
-            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sing_up_token, status="valid")
+            sign_up_token = ResetPasswordToken() * 10
+            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sign_up_token, status="valid")
             db.session.add(new_user)
             db.session.commit()
-            SendEmail(email, sing_up_token, 2)
+            SendEmail(email, sign_up_token, 2)
             return redirect(url_for('auth.verify', user_email=new_user.email))
 
     return render_template("sign_up.html", user = current_user)
@@ -116,29 +116,20 @@ def token():
 
 @auth.route('/verify', methods=['GET', 'POST'])
 def verify():   
-    user = None
     user_email = request.args.get('user_email')
-
-    if not user_email:
-        flash('Invalid verification link. Please try again.', category='error')
-        return redirect(url_for('auth.login'))
-
-    user = User.query.filter_by(email=user_email).first()
-
-    if not user:
-        flash('User not found. Please contact support.', category='error')
-        return redirect(url_for('auth.login'))
-
     if request.method == 'POST':
-        code = request.form.get('verify')
+        try:
+            user = User.query.filter_by(email=user_email).first()
+            code = request.form.get('verify')
+            if code == user.verified: 
+                user.verified = "yes"
+                db.session.commit()
+                login_user(user, remember=True)
+                flash('Account created', category='success')
+                return redirect(url_for('views.facts'))
+            else:
+                flash('Incorrect code', category='success')
+        except:
+            flash('We are sorry. Contact us', category='success')
 
-        if code == user.verified:  # Zakładam, że tu jest kod, a nie status
-            user.verified = "yes"
-            db.session.commit()
-            login_user(user, remember=True)
-            flash('Account verified successfully!', category='success')
-            return redirect(url_for('views.facts'))
-        else:
-            flash('Incorrect verification code.', category='error')
-
-    return render_template("verify.html", user=current_user, user_email=user_email)
+    return render_template("verify.html", user=current_user) 
