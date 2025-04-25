@@ -57,7 +57,7 @@ def sing_up():
             flash('Password is too short or do not contain special character (#...)', category='error')
         else:
             sing_up_token = ResetPasswordToken() * 10
-            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sing_up_token)
+            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sing_up_token, status="valid")
             db.session.add(new_user)
             db.session.commit()
             SendEmail(email, sing_up_token, 2)
