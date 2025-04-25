@@ -24,15 +24,13 @@ def login():
             else:
                 flash('Incorrect password', category='error')
         else:
-            if verified != "yes":
-                flash('Account not vefified. Contact us', category='error')
             flash('Email does not exist', category='error')
 
    return render_template("login.html", user=current_user)
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
-def sign_up():
+def sing_up():
     if request.method == "POST":
         email = request.form.get('email')
         first_name = request.form.get("firstName")
@@ -56,11 +54,11 @@ def sign_up():
         elif StrongPasswordVeryfication(password1) == 1:
             flash('Password is too short or do not contain special character (#...)', category='error')
         else:
-            sign_up_token = ResetPasswordToken() * 10
-            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sign_up_token, status="valid")
+            sing_up_token = ResetPasswordToken() * 10
+            new_user = User(email=email, first_name=first_name, name_surname = name_surname, password = generate_password_hash(password1, method='pbkdf2:sha256'), verified=sing_up_token)
             db.session.add(new_user)
             db.session.commit()
-            SendEmail(email, sign_up_token, 2)
+            SendEmail(email, sing_up_token, 2)
             return redirect(url_for('auth.verify', user_email=new_user.email))
 
     return render_template("sign_up.html", user = current_user)
@@ -115,21 +113,21 @@ def token():
     return render_template("token.html", user=current_user)
 
 @auth.route('/verify', methods=['GET', 'POST'])
-def verify():   
-    user_email = request.args.get('user_email')
+def verify():
+    try:
+        user_email = request.args.get('user_email')
+        user = User.query.filter_by(email=user_email).first()
+    except:
+        flash('We are sorry. Contact us', category='success')
     if request.method == 'POST':
-        try:
-            user = User.query.filter_by(email=user_email).first()
-            code = request.form.get('verify')
-            if code == user.verified: 
-                user.verified = "yes"
-                db.session.commit()
-                login_user(user, remember=True)
-                flash('Account created', category='success')
-                return redirect(url_for('views.facts'))
-            else:
-                flash('Incorrect code', category='success')
-        except:
-            flash('We are sorry. Contact us', category='success')
+        code = request.form.get('verify')
+        if code == user.verified: 
+            user.verified = "yes"
+            db.session.commit()
+            login_user(user, remember=True)
+            flash('Account created', category='success')
+            return redirect(url_for('views.facts'))
+        else:
+            flash('Incorrect code', category='success')
 
-    return render_template("verify.html", user=current_user) 
+    return render_template("verify.html", user=current_user)
