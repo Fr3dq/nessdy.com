@@ -130,4 +130,4 @@ def verify():
         else:
             flash('Incorrect code', category='success')
 
-    return render_template("verify.html", user=current_user)
+    return render_template("verify.html", user=current_user) 
