@@ -14,15 +14,18 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(email=email).first()
-        verified = user.verified
 
-        if user and verified == "yes":
-            if  check_password_hash(user.password, password):
-                flash('You are logged in', category='success')
-                login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+        if user:
+            verified = user.verified
+            if user and verified == "yes":
+                if  check_password_hash(user.password, password):
+                    flash('You are logged in', category='success')
+                    login_user(user, remember=True)
+                    return redirect(url_for('views.home'))
+                else:
+                    flash('Incorrect password', category='error')
             else:
-                flash('Incorrect password', category='error')
+                flash('Email does not exist', category='error')
         else:
             flash('Email does not exist', category='error')
 
@@ -59,6 +62,7 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
             SendEmail(email, sing_up_token, 2, "nessdy.com@gmail.com")
+            print(sing_up_token)
             return redirect(url_for('auth.verify', user_email=new_user.email))
 
     return render_template("sign_up.html", user = current_user)

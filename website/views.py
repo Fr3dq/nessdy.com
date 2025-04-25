@@ -155,6 +155,8 @@ def admin():
         user_id_block = request.form.get('block')
         user_id_unblock = request.form.get('unblock')
         user_verify =  request.form.get("verify")
+        user_delete = request.form.get("delete")
+
         if user_id_block:
             try:
                 user_id = int(user_id_block)
@@ -166,7 +168,7 @@ def admin():
                     flash("User not found or is an admin", category="error")
             except ValueError:
                 flash("Invalid user ID", category="error")
-        if user_id_unblock:
+        elif user_id_unblock:
             try:
                 user_id = int(user_id_unblock)
                 user = User.query.get(user_id)
@@ -177,7 +179,7 @@ def admin():
                     flash("User not found", category="error")
             except ValueError:
                 flash("Invalid user ID", category="error")
-        if user_verify:
+        elif user_verify:
             try:
                 user_id = int(user_verify)
                 user = User.query.get(user_id)
@@ -188,6 +190,27 @@ def admin():
                     flash("User not found", category="error")
             except ValueError:
                 flash("Invalid user ID", category="error")
+        elif user_delete:
+            try:
+                user_id = int(user_delete)
+                user = User.query.get(user_id)
+                if user and user_id != 1:
+
+                    for note in user.notes:
+
+                        for image in note.images:
+                            db.session.delete(image)
+                        for link in note.links:
+                            db.session.delete(link)
+                        db.session.delete(note)
+
+                    db.session.delete(user)
+                    db.session.commit()
+                    flash("User and all related data successfully deleted", category="success")
+                else:
+                    flash("User not found or is an admin", category="error")
+            except ValueError:
+                flash("Invalid user ID", category="error")  
 
     users = User.query.all()
     user_count = db.session.query(func.count(User.id)).scalar()
