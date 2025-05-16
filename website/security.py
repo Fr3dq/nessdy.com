@@ -39,64 +39,92 @@ def DivideLinks(link):
     return tab
 
 
-def SendEmail(recipient_email, token, version, from_who=None):
-    email_sender = 'nessdy.com@gmail.com'
+def SendEmail(recipient_email, token, version, from_who):
+    email_sender='nessdy.com@gmail.com'
     email_password = os.getenv('NESSDY_GMAIL_PASSWD')
     port = 465  # For SSL
 
-    # HTML templates for each email type
     if version == 1:
-        subject = "Password Reset Request"
-        body = f"""
+        subject="Password Reset Request"
+        html_body = f"""
         <html>
-            <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-                <p>Dear User,</p>
-                <p>We received a request to reset your password. Please use the following token to proceed:</p>
-                <p style="font-size: 18px; font-weight: bold; margin: 20px 0;">{token}</p>
-                <p>If you didn't request this, please ignore this email.</p>
-                <p>Best regards,<br>The Nessdy Team</p>
+            <body>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Hello,
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    We received a request to reset your password. Here is your password reset token:
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; color: #0066cc; margin: 20px 0;">
+                    {token}
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    If you didn't request this, please ignore this email.
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Best regards,<br>
+                    The Nessdy Team
+                </p>
             </body>
         </html>
         """
     elif version == 2:
-        subject = "Account Verification"
-        body = f"""
+        subject="Account Verification"
+        html_body = f"""
         <html>
-            <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-                <p>Dear User,</p>
-                <p>Thank you for registering with us. Here is your verification code:</p>
-                <p style="font-size: 18px; font-weight: bold; margin: 20px 0;">{token}</p>
-                <p>Please enter this code to complete your account verification.</p>
-                <p>Best regards,<br>The Nessdy Team</p>
+            <body>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Welcome!
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Thank you for registering with us. Here is your account verification code:
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; color: #0066cc; margin: 20px 0;">
+                    {token}
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Please enter this code to complete your registration.
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Best regards,<br>
+                    The Nessdy Team
+                </p>
             </body>
         </html>
         """
     elif version == 3:
-        subject = "User Support Request"
-        body = f"""
+        subject="User Support Request"
+        html_body = f"""
         <html>
-            <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-                <p>Support Team,</p>
-                <p>A user has reported the following issue:</p>
-                <p style="background-color: #f5f5f5; padding: 10px; border-left: 3px solid #ccc;">{token}</p>
-                <p>Reported by: {from_who}</p>
-                <p>Please address this issue at your earliest convenience.</p>
-                <p>System Notification</p>
+            <body>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Support Team,
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    The following user has reported an issue:
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; color: #333;">
+                    User: {from_who}
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    Problem description:
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 14px; color: #333; background-color: #f5f5f5; padding: 10px; border-left: 3px solid #0066cc;">
+                    {token}
+                </p>
+                <p style="font-family: Arial, sans-serif; font-size: 12px; color: #666; margin-top: 20px;">
+                    This is an automated notification from the Nessdy system.
+                </p>
             </body>
         </html>
         """
     
-    # Plain text fallback
-    text_body = f"Here is your information: {token}" if version in [1, 2] else f"User {from_who} reported: {token}"
-
     em = EmailMessage()
-    em['From'] = f"Nessdy Support <{email_sender}>"
+    em['From'] = email_sender
     em['To'] = recipient_email
     em['Subject'] = subject
-    
-    # Set both HTML and plain text versions
-    em.set_content(text_body)
-    em.add_alternative(body, subtype='html')
+    em.set_content(body)  # Keep plain text fallback
+    em.add_alternative(html_body, subtype='html')  # Add HTML version
 
     context = ssl.create_default_context()
 
@@ -104,7 +132,7 @@ def SendEmail(recipient_email, token, version, from_who=None):
         with smtplib.SMTP_SSL('smtp.gmail.com', port, context=context) as smtp:
             smtp.login(email_sender, email_password)
             smtp.sendmail(email_sender, recipient_email, em.as_string())
-            flash("Email sent successfully", category="success")
+            flash("Success", category="error")
     except Exception as e:
         print(f"Error: {e}")
         flash("Couldn't send message", category="error")
