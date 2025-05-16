@@ -40,12 +40,13 @@ def DivideLinks(link):
 
 
 def SendEmail(recipient_email, token, version, from_who=None):
-    email_sender = 'nessdy.com@nessdy.com'
+    email_sender = 'nessdy.com@gmail.com'
     email_password = os.getenv('NESSDY_GMAIL_PASSWD')
     port = 465  # For SSL
 
+    # HTML templates for each email type
     if version == 1:
-        subject = "Password Reset Request for Your Nessdy Account"
+        subject = "Password Reset Request"
         body = f"""
         <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6;">
@@ -55,9 +56,10 @@ def SendEmail(recipient_email, token, version, from_who=None):
                 <p>If you didn't request this, please ignore this email.</p>
                 <p>Best regards,<br>The Nessdy Team</p>
             </body>
-        </html>"""  
+        </html>
+        """
     elif version == 2:
-        subject = "Verify Your Nessdy Account"
+        subject = "Account Verification"
         body = f"""
         <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6;">
@@ -67,9 +69,10 @@ def SendEmail(recipient_email, token, version, from_who=None):
                 <p>Please enter this code to complete your account verification.</p>
                 <p>Best regards,<br>The Nessdy Team</p>
             </body>
-        </html>"""
+        </html>
+        """
     elif version == 3:
-        subject = "New Support Request Received"
+        subject = "User Support Request"
         body = f"""
         <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6;">
@@ -80,33 +83,20 @@ def SendEmail(recipient_email, token, version, from_who=None):
                 <p>Please address this issue at your earliest convenience.</p>
                 <p>System Notification</p>
             </body>
-        </html>"""
-
+        </html>
+        """
+    
+    # Plain text fallback
     text_body = f"Here is your information: {token}" if version in [1, 2] else f"User {from_who} reported: {token}"
 
     em = EmailMessage()
     em['From'] = f"Nessdy Support <{email_sender}>"
     em['To'] = recipient_email
     em['Subject'] = subject
-    em['Reply-To'] = "support@nessdy.com"
-    em['List-Unsubscribe'] = "<https://nessdy.com/>"
     
-    # Add important headers
-    em['X-Mailer'] = "Nessdy Mail Service"
-    em['Precedence'] = "bulk" if version in [1,2] else "normal"
-    
+    # Set both HTML and plain text versions
     em.set_content(text_body)
     em.add_alternative(body, subtype='html')
-
-    # Add DKIM signature (requires setup)
-    try:
-        with open('private.key', 'rb') as fh:
-            private_key = fh.read()
-        headers = [b'To', b'From', b'Subject']
-        sig = dkim.sign(em.as_bytes(), b'nessdy', b'default', private_key)
-        em['DKIM-Signature'] = sig[len('DKIM-Signature: '):].decode()
-    except Exception as e:
-        print(f"DKIM error: {e}")
 
     context = ssl.create_default_context()
 
