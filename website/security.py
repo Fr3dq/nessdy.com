@@ -4,6 +4,7 @@ from flask import flash
 import os
 import smtplib, ssl
 from email.message import EmailMessage
+import dkim
 
 def ResetPasswordToken():
     secure_code = secrets.randbelow(900000) + 100000
@@ -37,26 +38,75 @@ def DivideLinks(link):
             tab.remove(i) 
     return tab
 
-def SendEmail(recipient_email, token, version, from_who):
-    email_sender='nessdy.com@gmail.com'
+
+def SendEmail(recipient_email, token, version, from_who=None):
+    email_sender = 'nessdy.com@nessdy.com'
     email_password = os.getenv('NESSDY_GMAIL_PASSWD')
     port = 465  # For SSL
 
     if version == 1:
-        subject="Password reset"
-        body = f"Hey, here is your password reset token: {token}"
+        subject = "Password Reset Request for Your Nessdy Account"
+        body = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+                <p>Dear User,</p>
+                <p>We received a request to reset your password. Please use the following token to proceed:</p>
+                <p style="font-size: 18px; font-weight: bold; margin: 20px 0;">{token}</p>
+                <p>If you didn't request this, please ignore this email.</p>
+                <p>Best regards,<br>The Nessdy Team</p>
+            </body>
+        </html>"""  
     elif version == 2:
-        subject="Account verification"
-        body = f"Hey, here is your verification code: {token}"
+        subject = "Verify Your Nessdy Account"
+        body = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+                <p>Dear User,</p>
+                <p>Thank you for registering with us. Here is your verification code:</p>
+                <p style="font-size: 18px; font-weight: bold; margin: 20px 0;">{token}</p>
+                <p>Please enter this code to complete your account verification.</p>
+                <p>Best regards,<br>The Nessdy Team</p>
+            </body>
+        </html>"""
     elif version == 3:
-        subject="User problem"
-        body = f"Use: {from_who} has a problem: {token}" 
-    
+        subject = "New Support Request Received"
+        body = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+                <p>Support Team,</p>
+                <p>A user has reported the following issue:</p>
+                <p style="background-color: #f5f5f5; padding: 10px; border-left: 3px solid #ccc;">{token}</p>
+                <p>Reported by: {from_who}</p>
+                <p>Please address this issue at your earliest convenience.</p>
+                <p>System Notification</p>
+            </body>
+        </html>"""
+
+    text_body = f"Here is your information: {token}" if version in [1, 2] else f"User {from_who} reported: {token}"
+
     em = EmailMessage()
-    em['From'] = email_sender
+    em['From'] = f"Nessdy Support <{email_sender}>"
     em['To'] = recipient_email
     em['Subject'] = subject
-    em.set_content(body)
+    em['Reply-To'] = "support@nessdy.com"
+    em['List-Unsubscribe'] = "<https://nessdy.com/>"
+    
+    # Add important headers
+    em['X-Mailer'] = "Nessdy Mail Service"
+    em['Precedence'] = "bulk" if version in [1,2] else "normal"
+    
+    em.set_content(text_body)
+    em.add_alternative(body, subtype='html')
+
+    # Add DKIM signature (requires setup)
+    try:
+        with open('private.key', 'rb') as fh:
+            private_key = fh.read()
+        headers = [b'To', b'From', b'Subject']
+        sig = dkim.sign(em.as_bytes(), b'nessdy', b'default', private_key)
+        em['DKIM-Signature'] = sig[len('DKIM-Signature: '):].decode()
+    except Exception as e:
+        print(f"DKIM error: {e}")
 
     context = ssl.create_default_context()
 
@@ -64,10 +114,41 @@ def SendEmail(recipient_email, token, version, from_who):
         with smtplib.SMTP_SSL('smtp.gmail.com', port, context=context) as smtp:
             smtp.login(email_sender, email_password)
             smtp.sendmail(email_sender, recipient_email, em.as_string())
-            flash("Succes", category="error")
+            flash("Email sent successfully", category="success")
     except Exception as e:
         print(f"Error: {e}")
         flash("Couldn't send message", category="error")
+
+    # email_sender='nessdy.com@gmail.com'
+    # email_password = os.getenv('NESSDY_GMAIL_PASSWD')
+    # port = 465  # For SSL
+
+    # if version == 1:
+    #     subject="Password reset"
+    #     body = f"Hey, here is your password reset token: {token}"
+    # elif version == 2:
+    #     subject="Account verification"
+    #     body = f"Hey, here is your verification code: {token}"
+    # elif version == 3:
+    #     subject="User problem"
+    #     body = f"Use: {from_who} has a problem: {token}" 
+    
+    # em = EmailMessage()
+    # em['From'] = email_sender
+    # em['To'] = recipient_email
+    # em['Subject'] = subject
+    # em.set_content(body)
+
+    # context = ssl.create_default_context()
+
+    # try:
+    #     with smtplib.SMTP_SSL('smtp.gmail.com', port, context=context) as smtp:
+    #         smtp.login(email_sender, email_password)
+    #         smtp.sendmail(email_sender, recipient_email, em.as_string())
+    #         flash("Succes", category="error")
+    # except Exception as e:
+    #     print(f"Error: {e}")
+    #     flash("Couldn't send message", category="error")
 
 
 def CheckIfNotTooBig(files, size): 
