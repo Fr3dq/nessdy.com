@@ -117,12 +117,14 @@ def SendEmail(recipient_email, token, version, from_who):
             </body>
         </html>
         """
+
+    plain_body = "Please view this email in an HTML-compatible client."
     
     em = EmailMessage()
     em['From'] = email_sender
     em['To'] = recipient_email
     em['Subject'] = subject
-    em.set_content(body)  # Keep plain text fallback
+    em.set_content(plain_body)  # Keep plain text fallback
     em.add_alternative(html_body, subtype='html')  # Add HTML version
 
     context = ssl.create_default_context()
